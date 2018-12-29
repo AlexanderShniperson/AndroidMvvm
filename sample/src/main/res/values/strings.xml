@@ -1,3 +1,11 @@
 <resources>
-    <string name="app_name">sample</string>
+    <string name="app_name">Android MVVM sample</string>
+    <string name="first_screen_button">Go to second screen</string>
+    <string name="title_second_screen">Second screen</string>
+    <string name="tab_first_title">First</string>
+    <string name="tab_second_title">Second</string>
+    <string name="tab_third_title">Third</string>
+    <string name="open_info_dialog">Open Info Dialog</string>
+    <string name="open_question_dialog">Open question dialog</string>
+    <string name="open_error_dialog">Open error dialog</string>
 </resources>

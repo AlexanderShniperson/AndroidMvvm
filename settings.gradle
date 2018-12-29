@@ -1,2 +1,3 @@
-include ':library', ':sample', ':stub-android'
+rootProject.name = 'AndroidMvvm'
+include ':library', ':stub-android', ':sample'
 project(':stub-android').projectDir = new File('library/stub-android')

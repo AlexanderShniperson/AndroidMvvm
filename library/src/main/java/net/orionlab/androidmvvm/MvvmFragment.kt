@@ -4,14 +4,19 @@ import android.arch.lifecycle.ViewModelProviders
 import android.databinding.ViewDataBinding
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.support.v7.app.AppCompatActivity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import java.lang.reflect.ParameterizedType
 
 abstract class MvvmFragment<A : ViewDataBinding, B : MvvmAndroidViewModel> : Fragment() {
-    lateinit var viewBinding: A
-    lateinit var viewModel: B
+    var viewBinding: A? = null
+    var viewModel: B? = null
+
+    interface OnBackPressedListener {
+        fun onBackPressed(): Boolean = false
+    }
 
     open fun canShowActionBar(): Boolean = true
 
@@ -21,19 +26,30 @@ abstract class MvvmFragment<A : ViewDataBinding, B : MvvmAndroidViewModel> : Fra
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         viewBinding = getViewBindingInstance(inflater, container)
-        return viewBinding.root
+        return viewBinding!!.root
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProviders.of(this).get(getViewModelClass())
         setViewModelToViewBinding(viewModel)
+        if (activity != null && activity is AppCompatActivity) {
+            (activity as AppCompatActivity).supportActionBar?.let { actionBar ->
+                if (canShowActionBar())
+                    actionBar.show()
+                else
+                    actionBar.hide()
+                getScreenTitle()?.let { title -> actionBar.title = title }
+            }
+        }
         onMvvmComponentInit()
     }
 
     override fun onDestroy() {
-        super.onDestroy()
         setViewModelToViewBinding(null)
+        viewModel = null
+        viewBinding = null
+        super.onDestroy()
     }
 
     @Suppress("UNCHECKED_CAST")
@@ -46,8 +62,12 @@ abstract class MvvmFragment<A : ViewDataBinding, B : MvvmAndroidViewModel> : Fra
 
     private fun setViewModelToViewBinding(value: B?) {
         try {
-            val method = viewBinding.javaClass.getDeclaredMethod("setViewModel", viewModel.javaClass)
-            method.invoke(viewBinding, value)
+            viewBinding?.let { vb ->
+                viewModel?.let { vm ->
+                    val method = vb.javaClass.getDeclaredMethod("setViewModel", vm.javaClass)
+                    method.invoke(vb, value)
+                }
+            }
         } catch (ex: Throwable) {
         }
     }
