@@ -10,13 +10,12 @@ class SecondFragment : MvvmFragment<SecondFragmentBinding, SecondViewModel>(), M
     }
 
     override fun onMvvmComponentInit() {
-
-        viewModel?.configureUI(activity!!.supportFragmentManager, viewBinding!!.tabLayout, viewBinding!!.viewPager)
+        viewModel?.configureUI(childFragmentManager, viewBinding!!.tabLayout, viewBinding!!.viewPager)
     }
 
-    override fun onBackPressed(): Boolean {
+    override fun onStop() {
+        super.onStop()
         // we need this to destroy adapter and also created fragments
         viewBinding?.viewPager?.adapter = null
-        return super.onBackPressed()
     }
 }

@@ -33,6 +33,10 @@ abstract class MvvmFragment<A : ViewDataBinding, B : MvvmAndroidViewModel> : Fra
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProviders.of(this).get(getViewModelClass())
         setViewModelToViewBinding(viewModel)
+    }
+
+    override fun onResume() {
+        super.onResume()
         if (activity != null && activity is AppCompatActivity) {
             (activity as AppCompatActivity).supportActionBar?.let { actionBar ->
                 if (canShowActionBar())
@@ -47,6 +51,7 @@ abstract class MvvmFragment<A : ViewDataBinding, B : MvvmAndroidViewModel> : Fra
 
     override fun onDestroy() {
         setViewModelToViewBinding(null)
+        viewModel?.onDestroy()
         viewModel = null
         viewBinding = null
         super.onDestroy()
