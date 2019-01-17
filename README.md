@@ -1,3 +1,4 @@
+[![Release](https://jitpack.io/v/AlexanderShniperson/AndroidMvvm.svg)](https://jitpack.io/#AlexanderShniperson/AndroidMvvm)
 # AndroidMvvm
 Library describes experience how to implement and use of MVVM pattern provided by Google.<br>
 Project include example of usage.
