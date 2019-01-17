@@ -3,6 +3,24 @@
 Library describes experience how to implement and use of MVVM pattern provided by Google.<br>
 Project include example of usage.
 
+## Library integration
+This library is available in [JitPack.io](https://jitpack.io/) repository.
+1) make sure to add the below inside root `build.gradle` file
+```
+allprojects {
+    repositories {
+        mavenCentral()
+        maven { url "https://jitpack.io" }
+    }
+}
+```
+2) add library dependency to the app's `build.gradle` file.
+```
+dependencies {
+   implementation 'com.github.AlexanderShniperson:AndroidMvvm:v1.0'
+}
+```
+
 ## How to use
 1) Create `Fragment` with `ViewModel` from Menu<br>
 `File > Fragment > Fragment + ViewModel`<br>
