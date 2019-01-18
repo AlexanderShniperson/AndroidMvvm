@@ -1,4 +1,5 @@
 [![Release](https://jitpack.io/v/AlexanderShniperson/AndroidMvvm.svg)](https://jitpack.io/#AlexanderShniperson/AndroidMvvm)
+[![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-AndroidMvvm-green.svg?style=flat)](https://android-arsenal.com/details/1/7466)
 # AndroidMvvm
 Library describes experience how to implement and use of MVVM pattern provided by Google.<br>
 Project include example of usage.
@@ -17,7 +18,7 @@ allprojects {
 2) add library dependency to the app's `build.gradle` file.
 ```
 dependencies {
-   implementation 'com.github.AlexanderShniperson:AndroidMvvm:v1.0'
+   implementation 'com.github.AlexanderShniperson:AndroidMvvm:1.0'
 }
 ```
 
