@@ -23,11 +23,11 @@ dependencies {
 ```
 
 ## How to use
-1) Copy Template files from `AndroidMvvmFragment` into
-a) Windows `C:\Program Files\Android\Android Studio\plugins\android\lib\templates\other\`
-b) MacOS `/Applications/Android Studio.app/Contents/plugins/android/lib/templates/other/`
-2) Restart `Android Studio` if it was launched before
+1) Copy Template files from `AndroidMvvmFragment` into<br>
+a) Windows `C:\Program Files\Android\Android Studio\plugins\android\lib\templates\other\`<br>
+b) MacOS `/Applications/Android Studio.app/Contents/plugins/android/lib/templates/other/`<br>
+2) Restart `Android Studio` if it was launched before<br>
 3) Create `AndroidMvvm Fragment + ViewModel` from Menu<br>
 `File > Fragment > AndroidMvvm Fragment + ViewModel`<br>
-4) Fill `Template name` field and click `Finish`
+4) Fill `Template name` field and click `Finish`<br>
 5) You are done, do any implementations at your `ViewModel` as described at Sample project
