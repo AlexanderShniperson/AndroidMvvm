@@ -8,8 +8,8 @@
     public protected *;
 }
 
--dontwarn android.databinding.**
--keep class android.databinding.** { *; }
+-dontwarn androidx.databinding.**
+-keep class androidx.databinding.** { *; }
 
 -keep class net.orionlab.androidmvvm.** { *; }
 -dontnote net.orionlab.androidmvvm.MvvmFragment
