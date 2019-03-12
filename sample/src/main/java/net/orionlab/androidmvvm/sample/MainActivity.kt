@@ -1,7 +1,7 @@
 package net.orionlab.androidmvvm.sample
 
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import net.orionlab.androidmvvm.MvvmFragment
 import net.orionlab.androidmvvm.sample.navigation.Screens
 import ru.terrakok.cicerone.NavigatorHolder

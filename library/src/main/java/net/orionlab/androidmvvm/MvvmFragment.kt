@@ -1,13 +1,13 @@
 package net.orionlab.androidmvvm
 
-import android.arch.lifecycle.ViewModelProviders
-import android.databinding.ViewDataBinding
+import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
-import android.support.v4.app.Fragment
-import android.support.v7.app.AppCompatActivity
+import androidx.fragment.app.Fragment
+import androidx.appcompat.app.AppCompatActivity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.databinding.ViewDataBinding
 import java.lang.reflect.ParameterizedType
 
 abstract class MvvmFragment<A : ViewDataBinding, B : MvvmAndroidViewModel> : Fragment() {
@@ -37,6 +37,11 @@ abstract class MvvmFragment<A : ViewDataBinding, B : MvvmAndroidViewModel> : Fra
 
     override fun onResume() {
         super.onResume()
+        onMvvmComponentInit()
+        updateActionBar()
+    }
+
+    fun updateActionBar() {
         if (activity != null && activity is AppCompatActivity) {
             (activity as AppCompatActivity).supportActionBar?.let { actionBar ->
                 if (canShowActionBar())
@@ -46,7 +51,6 @@ abstract class MvvmFragment<A : ViewDataBinding, B : MvvmAndroidViewModel> : Fra
                 getScreenTitle()?.let { title -> actionBar.title = title }
             }
         }
-        onMvvmComponentInit()
     }
 
     override fun onDestroy() {

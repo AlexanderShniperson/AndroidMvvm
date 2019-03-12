@@ -1,6 +1,6 @@
 package net.orionlab.androidmvvm.sample
 
-import android.arch.lifecycle.Observer
+import androidx.lifecycle.Observer
 import net.orionlab.androidmvvm.MvvmFragment
 import net.orionlab.androidmvvm.sample.databinding.ViewPagerSecondFragmentBinding
 import net.orionlab.androidmvvm.sample.utils.DialogUtils

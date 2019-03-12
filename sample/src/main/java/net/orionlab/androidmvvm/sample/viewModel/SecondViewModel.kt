@@ -1,9 +1,9 @@
 package net.orionlab.androidmvvm.sample.viewModel
 
 import android.app.Application
-import android.support.design.widget.TabLayout
-import android.support.v4.app.FragmentManager
-import android.support.v4.view.ViewPager
+import androidx.fragment.app.FragmentManager
+import androidx.viewpager.widget.ViewPager
+import com.google.android.material.tabs.TabLayout
 import net.orionlab.androidmvvm.MvvmAndroidViewModel
 import net.orionlab.androidmvvm.sample.R
 import net.orionlab.androidmvvm.sample.ViewPagerFirstFragment

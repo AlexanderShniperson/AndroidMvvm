@@ -1,9 +1,9 @@
 package net.orionlab.androidmvvm.sample.utils
 
 import android.content.DialogInterface
-import android.support.annotation.StringRes
-import android.support.v4.app.FragmentActivity
-import android.support.v7.app.AlertDialog
+import androidx.annotation.StringRes
+import androidx.appcompat.app.AlertDialog
+import androidx.fragment.app.FragmentActivity
 import net.orionlab.androidmvvm.sample.R
 
 class DialogUtils {

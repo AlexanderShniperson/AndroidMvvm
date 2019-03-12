@@ -1,14 +1,14 @@
 package net.orionlab.androidmvvm
 
-import android.arch.lifecycle.LifecycleOwner
-import android.arch.lifecycle.MutableLiveData
-import android.arch.lifecycle.Observer
-import android.support.annotation.MainThread
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Observer
+import androidx.annotation.MainThread
 
 class MvvmActionLiveData<T> : MutableLiveData<T>() {
 
     @MainThread
-    override fun observe(owner: LifecycleOwner, observer: Observer<T?>) {
+    override fun observe(owner: LifecycleOwner, observer: Observer<in T>) {
 
         // Being strict about the observer numbers is up to you
         // I thought it made sense to only allow one to handle the event

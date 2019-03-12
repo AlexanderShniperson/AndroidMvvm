@@ -1,6 +1,6 @@
 package net.orionlab.androidmvvm.sample.navigation
 
-import android.support.v4.app.Fragment
+import androidx.fragment.app.Fragment
 import net.orionlab.androidmvvm.sample.FirstFragment
 import net.orionlab.androidmvvm.sample.SecondFragment
 import ru.terrakok.cicerone.android.support.SupportAppScreen
