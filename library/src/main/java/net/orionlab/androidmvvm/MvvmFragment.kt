@@ -26,7 +26,8 @@ abstract class MvvmFragment<A : ViewDataBinding, B : MvvmAndroidViewModel> : Fra
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         viewBinding = getViewBindingInstance(inflater, container)
-        return viewBinding!!.root
+        viewBinding?.lifecycleOwner = this
+        return viewBinding?.root
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
