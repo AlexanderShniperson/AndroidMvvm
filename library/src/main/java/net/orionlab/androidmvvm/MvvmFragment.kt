@@ -13,6 +13,7 @@ import java.lang.reflect.ParameterizedType
 abstract class MvvmFragment<A : ViewDataBinding, B : MvvmAndroidViewModel> : Fragment() {
     var viewBinding: A? = null
     var viewModel: B? = null
+    var restorableParams: List<RestorableParam> = emptyList()
 
     interface OnBackPressedListener {
         fun onBackPressed(): Boolean = false
@@ -21,6 +22,21 @@ abstract class MvvmFragment<A : ViewDataBinding, B : MvvmAndroidViewModel> : Fra
     open fun canShowActionBar(): Boolean = true
 
     open fun getScreenTitle(): String? = null
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        restorableParams.forEach { item ->
+            outState.putParcelable(item.field, item.storeFunc.invoke())
+        }
+        super.onSaveInstanceState(outState)
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        savedInstanceState?.let {
+            if (arguments == null) arguments = Bundle()
+            restorableParams.forEach { item -> item.restoreParam(arguments) }
+        }
+    }
 
     abstract fun onMvvmComponentInit()
 
@@ -56,7 +72,6 @@ abstract class MvvmFragment<A : ViewDataBinding, B : MvvmAndroidViewModel> : Fra
 
     override fun onDestroy() {
         setViewModelToViewBinding(null)
-        viewModel?.onDestroy()
         viewModel = null
         viewBinding = null
         super.onDestroy()
