@@ -1,44 +1,41 @@
 package net.orionlab.androidmvvm
 
-import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
-import androidx.fragment.app.Fragment
-import androidx.appcompat.app.AppCompatActivity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.ViewDataBinding
-import java.lang.reflect.ParameterizedType
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProviders
 
-abstract class MvvmFragment<A : ViewDataBinding, B : MvvmAndroidViewModel> : Fragment() {
+abstract class MvvmFragment<A : ViewDataBinding, B : ViewModel> : Fragment() {
     var viewBinding: A? = null
     var viewModel: B? = null
-    var restorableParams: List<RestorableParam> = emptyList()
-
-    interface OnBackPressedListener {
-        fun onBackPressed(): Boolean = false
-    }
+    private var isRestoredState = false
 
     open fun canShowActionBar(): Boolean = true
 
     open fun getScreenTitle(): String? = null
 
     override fun onSaveInstanceState(outState: Bundle) {
-        restorableParams.forEach { item ->
-            outState.putParcelable(item.field, item.storeFunc.invoke())
-        }
+        outState.putBoolean("isRestoredState", true)
         super.onSaveInstanceState(outState)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         savedInstanceState?.let {
-            if (arguments == null) arguments = Bundle()
-            restorableParams.forEach { item -> item.restoreParam(arguments) }
+            isRestoredState = it.getBoolean("isRestoredState", false)
         }
     }
 
-    abstract fun onMvvmComponentInit()
+    abstract fun onMvvmComponentInit(isRestored: Boolean)
+
+    abstract fun getViewBindingInstance(inflater: LayoutInflater, container: ViewGroup?): A
+
+    abstract fun getViewModelClass(): Class<B>
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         viewBinding = getViewBindingInstance(inflater, container)
@@ -54,7 +51,8 @@ abstract class MvvmFragment<A : ViewDataBinding, B : MvvmAndroidViewModel> : Fra
 
     override fun onResume() {
         super.onResume()
-        onMvvmComponentInit()
+        onMvvmComponentInit(isRestoredState)
+        isRestoredState = false
         updateActionBar()
     }
 
@@ -77,14 +75,6 @@ abstract class MvvmFragment<A : ViewDataBinding, B : MvvmAndroidViewModel> : Fra
         super.onDestroy()
     }
 
-    @Suppress("UNCHECKED_CAST")
-    private fun getViewBindingInstance(layoutInflater: LayoutInflater, container: ViewGroup?): A {
-        val clazz = ((this.javaClass.genericSuperclass as ParameterizedType).actualTypeArguments[0] as Class<A>)
-        val method =
-            clazz.getDeclaredMethod("inflate", LayoutInflater::class.java, ViewGroup::class.java, Boolean::class.java)
-        return method.invoke(clazz, layoutInflater, container, false) as A
-    }
-
     private fun setViewModelToViewBinding(value: B?) {
         try {
             viewBinding?.let { vb ->
@@ -97,8 +87,18 @@ abstract class MvvmFragment<A : ViewDataBinding, B : MvvmAndroidViewModel> : Fra
         }
     }
 
+    /*
     @Suppress("UNCHECKED_CAST")
     private fun getViewModelClass(): Class<B> {
         return ((this.javaClass.genericSuperclass as ParameterizedType).actualTypeArguments[1] as Class<B>)
     }
+
+    @Suppress("UNCHECKED_CAST")
+    private fun getViewBindingInstance(layoutInflater: LayoutInflater, container: ViewGroup?): A {
+        val clazz = ((this.javaClass.genericSuperclass as ParameterizedType).actualTypeArguments[0] as Class<A>)
+        val method =
+            clazz.getDeclaredMethod("inflate", LayoutInflater::class.java, ViewGroup::class.java, Boolean::class.java)
+        return method.invoke(clazz, layoutInflater, container, false) as A
+    }
+    */
 }

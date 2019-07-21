@@ -2,7 +2,7 @@ package net.orionlab.androidmvvm.sample
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import net.orionlab.androidmvvm.MvvmFragment
+import net.orionlab.androidmvvm.OnBackPressedListener
 import net.orionlab.androidmvvm.sample.navigation.Screens
 import ru.terrakok.cicerone.NavigatorHolder
 import ru.terrakok.cicerone.Router
@@ -41,7 +41,7 @@ class MainActivity : AppCompatActivity() {
     override fun onBackPressed() {
         val fragment = supportFragmentManager.findFragmentById(containerId)
         if (fragment != null
-            && fragment is MvvmFragment.OnBackPressedListener
+            && fragment is OnBackPressedListener
             && fragment.onBackPressed()
         ) {
             return

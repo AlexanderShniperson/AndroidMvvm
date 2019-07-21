@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">Android MVVM sample</string>
-    <string name="first_screen_button">Go to second screen</string>
+    <string name="first_screen_button">Open second screen</string>
     <string name="title_second_screen">Second screen</string>
     <string name="tab_first_title">First</string>
     <string name="tab_second_title">Second</string>

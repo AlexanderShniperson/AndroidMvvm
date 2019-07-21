@@ -3,11 +3,11 @@ package net.orionlab.androidmvvm.sample.viewModel
 import android.app.Application
 import android.content.DialogInterface
 import android.view.View
+import androidx.lifecycle.AndroidViewModel
 import net.orionlab.androidmvvm.MvvmActionLiveData
-import net.orionlab.androidmvvm.MvvmAndroidViewModel
 import net.orionlab.androidmvvm.sample.utils.DialogUtils
 
-class ViewPagerSecondViewModel(app: Application) : MvvmAndroidViewModel(app) {
+class ViewPagerSecondViewModel(app: Application) : AndroidViewModel(app) {
     val infoMessageObserver = MvvmActionLiveData<DialogUtils.DialogHandler>()
     val questionMessageObserver = MvvmActionLiveData<DialogUtils.DialogHandler>()
 

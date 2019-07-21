@@ -9,7 +9,7 @@ class ViewPagerAdapter(
     fragmentManager: FragmentManager,
     val fragments: List<MvvmFragment<*, *>>,
     val pageTitles: List<String>
-) : FragmentStatePagerAdapter(fragmentManager) {
+) : FragmentStatePagerAdapter(fragmentManager, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
 
     override fun getItem(position: Int): Fragment {
         return fragments[position]

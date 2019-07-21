@@ -35,14 +35,16 @@ ext.daggerVer = "2.20"
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
     implementation project(':library')
-    implementation 'androidx.appcompat:appcompat:1.1.0-alpha02'
-    implementation 'com.google.android.material:material:1.1.0-alpha04'
+    implementation 'androidx.appcompat:appcompat:1.1.0-rc01'
+    implementation 'com.google.android.material:material:1.1.0-alpha08'
 
     // Navigation
-    implementation 'ru.terrakok.cicerone:cicerone:4.0.2'
+    implementation 'ru.terrakok.cicerone:cicerone:5.0.0'
 
     // Dagger2
     implementation "com.google.dagger:dagger:$daggerVer"
-    implementation 'androidx.lifecycle:lifecycle-extensions:2.1.0-alpha02'
+    implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0-alpha02'
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.0.0'
     kapt "com.google.dagger:dagger-compiler:$daggerVer"
 }
