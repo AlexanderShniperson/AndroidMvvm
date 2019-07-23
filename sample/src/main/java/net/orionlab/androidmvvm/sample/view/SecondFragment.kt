@@ -9,7 +9,7 @@ import net.orionlab.androidmvvm.sample.databinding.SecondFragmentBinding
 import net.orionlab.androidmvvm.sample.viewModel.SecondViewModel
 
 class SecondFragment : MvvmFragment<SecondFragmentBinding, SecondViewModel>() {
-    override fun getScreenTitle(): String? {
+    override fun getActionBarTitle(): String? {
         return context?.getString(R.string.title_second_screen)
     }
 
@@ -21,7 +21,7 @@ class SecondFragment : MvvmFragment<SecondFragmentBinding, SecondViewModel>() {
         return SecondViewModel::class.java
     }
 
-    override fun onMvvmComponentInit(isRestored: Boolean) {
+    override fun onViewModelCreated(isViewRestored: Boolean) {
         viewBinding?.let { vb ->
             vb.viewPager.offscreenPageLimit = 1
             val fragments = arrayListOf(

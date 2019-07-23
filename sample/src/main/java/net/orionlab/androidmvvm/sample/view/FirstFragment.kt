@@ -8,7 +8,7 @@ import net.orionlab.androidmvvm.sample.databinding.FirstFragmentBinding
 import net.orionlab.androidmvvm.sample.viewModel.FirstViewModel
 
 class FirstFragment : MvvmFragment<FirstFragmentBinding, FirstViewModel>() {
-    override fun getScreenTitle(): String? {
+    override fun getActionBarTitle(): String? {
         return context?.getString(R.string.app_name)
     }
 
@@ -20,6 +20,6 @@ class FirstFragment : MvvmFragment<FirstFragmentBinding, FirstViewModel>() {
         return FirstViewModel::class.java
     }
 
-    override fun onMvvmComponentInit(isRestored: Boolean) {
+    override fun onViewModelCreated(isViewRestored: Boolean) {
     }
 }

@@ -10,32 +10,59 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProviders
 
+/**
+ * Base Fragment that should be extended when using this library
+ */
 abstract class MvvmFragment<A : ViewDataBinding, B : ViewModel> : Fragment() {
     var viewBinding: A? = null
     var viewModel: B? = null
+
+    /**
+     * Store flag that View has been restored
+     */
     private var isRestoredState = false
 
-    open fun canShowActionBar(): Boolean = true
+    /**
+     * Indicates that ActionBar should be shown or hidden
+     *
+     * @return Boolean, true - will be shown, false - will be hidden
+     */
+    protected open fun canShowActionBar(): Boolean = true
 
-    open fun getScreenTitle(): String? = null
+    /**
+     * Method returns title for ActionBar
+     *
+     * @return Nullable String
+     */
+    protected open fun getActionBarTitle(): String? = null
+
+    /**
+     * Method call when ViewModel created but not applied to ViewBinding
+     *
+     * @param isViewRestored Indicates that View is restored or recreated
+     */
+    protected abstract fun onViewModelCreated(isViewRestored: Boolean)
+
+    /**
+     * Method returns ViewBinding instance
+     *
+     * @param inflater Layout inflater
+     * @param container Root container
+     * @return ViewBinding instance
+     */
+    protected abstract fun getViewBindingInstance(inflater: LayoutInflater, container: ViewGroup?): A
+
+    /**
+     * Method return ViewModel class
+     *
+     * @return class of ViewModel
+     */
+    protected abstract fun getViewModelClass(): Class<B>
 
     override fun onSaveInstanceState(outState: Bundle) {
-        outState.putBoolean("isRestoredState", true)
+        outState.putBoolean("isRestoredState_${javaClass.simpleName}", true)
         super.onSaveInstanceState(outState)
     }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        savedInstanceState?.let {
-            isRestoredState = it.getBoolean("isRestoredState", false)
-        }
-    }
-
-    abstract fun onMvvmComponentInit(isRestored: Boolean)
-
-    abstract fun getViewBindingInstance(inflater: LayoutInflater, container: ViewGroup?): A
-
-    abstract fun getViewModelClass(): Class<B>
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         viewBinding = getViewBindingInstance(inflater, container)
@@ -45,17 +72,26 @@ abstract class MvvmFragment<A : ViewDataBinding, B : ViewModel> : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        savedInstanceState?.let {
+            isRestoredState = it.getBoolean("isRestoredState_${javaClass.simpleName}", false)
+        }
         viewModel = ViewModelProviders.of(this).get(getViewModelClass())
+        onViewModelCreated(isRestoredState)
+        isRestoredState = false
         setViewModelToViewBinding(viewModel)
     }
 
     override fun onResume() {
         super.onResume()
-        onMvvmComponentInit(isRestoredState)
-        isRestoredState = false
         updateActionBar()
     }
 
+    /**
+     * Method updates ActionBar visibility and title
+     * If getActionBarTitle is not null then title will be applied to ActionBar
+     * @see canShowActionBar
+     * @see getActionBarTitle
+     */
     fun updateActionBar() {
         if (activity != null && activity is AppCompatActivity) {
             (activity as AppCompatActivity).supportActionBar?.let { actionBar ->
@@ -63,7 +99,7 @@ abstract class MvvmFragment<A : ViewDataBinding, B : ViewModel> : Fragment() {
                     actionBar.show()
                 else
                     actionBar.hide()
-                getScreenTitle()?.let { title -> actionBar.title = title }
+                getActionBarTitle()?.let { title -> actionBar.title = title }
             }
         }
     }
@@ -75,6 +111,9 @@ abstract class MvvmFragment<A : ViewDataBinding, B : ViewModel> : Fragment() {
         super.onDestroy()
     }
 
+    /**
+     * Method apply ViewModel instance to ViewBinding
+     */
     private fun setViewModelToViewBinding(value: B?) {
         try {
             viewBinding?.let { vb ->
@@ -86,19 +125,4 @@ abstract class MvvmFragment<A : ViewDataBinding, B : ViewModel> : Fragment() {
         } catch (ex: Throwable) {
         }
     }
-
-    /*
-    @Suppress("UNCHECKED_CAST")
-    private fun getViewModelClass(): Class<B> {
-        return ((this.javaClass.genericSuperclass as ParameterizedType).actualTypeArguments[1] as Class<B>)
-    }
-
-    @Suppress("UNCHECKED_CAST")
-    private fun getViewBindingInstance(layoutInflater: LayoutInflater, container: ViewGroup?): A {
-        val clazz = ((this.javaClass.genericSuperclass as ParameterizedType).actualTypeArguments[0] as Class<A>)
-        val method =
-            clazz.getDeclaredMethod("inflate", LayoutInflater::class.java, ViewGroup::class.java, Boolean::class.java)
-        return method.invoke(clazz, layoutInflater, container, false) as A
-    }
-    */
 }

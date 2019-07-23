@@ -21,7 +21,7 @@ class FirstCommunicationFragment : MvvmFragment<FragmentFirstCommunicationBindin
         return FirstCommunicationViewModel::class.java
     }
 
-    override fun onMvvmComponentInit(isRestored: Boolean) {
+    override fun onViewModelCreated(isViewRestored: Boolean) {
         viewModel?.firstField?.removeOnPropertyChangedCallback(propertyChangedCallback)
         viewModel?.firstField?.addOnPropertyChangedCallback(propertyChangedCallback)
     }

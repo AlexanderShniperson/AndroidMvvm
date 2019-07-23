@@ -20,7 +20,7 @@ class ViewPagerThirdFragment : MvvmFragment<ViewPagerThirdFragmentBinding, ViewP
         return ViewPagerThirdViewModel::class.java
     }
 
-    override fun onMvvmComponentInit(isRestored: Boolean) {
+    override fun onViewModelCreated(isViewRestored: Boolean) {
         viewModel?.errorMessageObserver?.observe(this, Observer {
             it?.let {
                 DialogUtils.createErrorDialog(activity!!, it.message)

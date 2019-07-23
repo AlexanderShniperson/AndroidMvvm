@@ -9,7 +9,7 @@ import net.orionlab.androidmvvm.sample.utils.DialogUtils
 import net.orionlab.androidmvvm.sample.viewModel.ViewPagerSecondViewModel
 
 class ViewPagerSecondFragment : MvvmFragment<ViewPagerSecondFragmentBinding, ViewPagerSecondViewModel>() {
-    override fun onMvvmComponentInit(isRestored: Boolean) {
+    override fun onViewModelCreated(isViewRestored: Boolean) {
         viewModel?.infoMessageObserver?.observe(this, Observer {
             it?.let {
                 DialogUtils.createInfoDialog(activity!!, it.message)

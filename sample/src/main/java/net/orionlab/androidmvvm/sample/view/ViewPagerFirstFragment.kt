@@ -20,7 +20,7 @@ class ViewPagerFirstFragment : MvvmFragment<ViewPagerFirstFragmentBinding, ViewP
         return ViewPagerFirstViewModel::class.java
     }
 
-    override fun onMvvmComponentInit(isRestored: Boolean) {
+    override fun onViewModelCreated(isViewRestored: Boolean) {
         viewModel?.infoMessageObserver?.observe(this, Observer {
             it?.let {
                 DialogUtils.createInfoDialog(activity!!, it.message)
