@@ -1,8 +1,7 @@
 package net.orionlab.androidmvvm.sample.viewModel
 
-import android.app.Application
-import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.ViewModel
 
-class SecondViewModel(app: Application) : AndroidViewModel(app) {
+class SecondViewModel : ViewModel() {
 
 }

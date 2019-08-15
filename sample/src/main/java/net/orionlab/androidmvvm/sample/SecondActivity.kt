@@ -32,7 +32,6 @@ class SecondActivity : AppCompatActivity(), CommunicationListener {
     }
 
     override fun onStop() {
-        super.onStop()
         val firstContainer = supportFragmentManager.findFragmentById(R.id.firstCommunicationContainer)
         if (firstContainer != null) {
             supportFragmentManager.beginTransaction().remove(firstContainer).commit()
@@ -41,6 +40,7 @@ class SecondActivity : AppCompatActivity(), CommunicationListener {
         if (secondContainer != null) {
             supportFragmentManager.beginTransaction().remove(secondContainer).commit()
         }
+        super.onStop()
     }
 
     override fun onCommunication(value: String) {

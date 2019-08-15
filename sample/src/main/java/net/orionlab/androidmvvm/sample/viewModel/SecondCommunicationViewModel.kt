@@ -1,10 +1,9 @@
 package net.orionlab.androidmvvm.sample.viewModel
 
-import android.app.Application
 import androidx.databinding.ObservableField
-import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.ViewModel
 
-class SecondCommunicationViewModel(app: Application) : AndroidViewModel(app) {
+class SecondCommunicationViewModel : ViewModel() {
     val secondField = ObservableField<String>()
 
 }

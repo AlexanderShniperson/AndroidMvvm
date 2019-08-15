@@ -1,9 +1,9 @@
 package ${escapeKotlinIdentifiers(packageName)}
 
 import android.app.Application
-import net.orionlab.androidmvvm.MvvmAndroidViewModel
+import androidx.lifecycle.ViewModel
 
-class ${viewModelName}(app: Application) : MvvmAndroidViewModel(app) {
+class ${viewModelName} : ViewModel() {
 
     // TODO: Implement the ViewModel
 

@@ -1,12 +1,9 @@
 package ${packageName};
 
 import android.app.Application;
-import net.orionlab.androidmvvm.MvvmAndroidViewModel;
+import androidx.lifecycle.ViewModel;
 
-public class ${viewModelName} extends MvvmAndroidViewModel {
-	public ${viewModelName}(Application app) {
-		super(app);
-	}
+public class ${viewModelName} extends ViewModel {
 
     // TODO: Implement the ViewModel
 }

@@ -5,6 +5,9 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.annotation.MainThread
 
+/**
+ * Use this class when you want to fire one time events
+ */
 class MvvmActionLiveData<T> : MutableLiveData<T>() {
 
     @MainThread

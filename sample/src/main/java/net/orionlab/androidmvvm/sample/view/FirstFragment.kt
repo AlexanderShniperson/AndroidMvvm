@@ -2,6 +2,7 @@ package net.orionlab.androidmvvm.sample.view
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.lifecycle.ViewModelProvider
 import net.orionlab.androidmvvm.MvvmFragment
 import net.orionlab.androidmvvm.sample.R
 import net.orionlab.androidmvvm.sample.databinding.FirstFragmentBinding
@@ -12,7 +13,17 @@ class FirstFragment : MvvmFragment<FirstFragmentBinding, FirstViewModel>() {
         return context?.getString(R.string.app_name)
     }
 
-    override fun getViewBindingInstance(inflater: LayoutInflater, container: ViewGroup?): FirstFragmentBinding {
+    /**
+     * Method implemented because we need Application instance at ViewModel
+     */
+    override fun getViewModelFactory(): ViewModelProvider.Factory? {
+        return ViewModelProvider.AndroidViewModelFactory.getInstance(activity!!.application)
+    }
+
+    override fun getViewBindingInstance(
+        inflater: LayoutInflater,
+        container: ViewGroup?
+    ): FirstFragmentBinding {
         return FirstFragmentBinding.inflate(inflater, container, false)
     }
 

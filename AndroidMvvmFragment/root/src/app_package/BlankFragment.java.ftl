@@ -6,7 +6,20 @@ import ${applicationPackage}.databinding.${underscoreToCamelCase(layoutName)}Bin
 
 public class ${className} extends MvvmFragment<${underscoreToCamelCase(layoutName)}Binding, ${viewModelName}> {
     @Override
-    public void onMvvmComponentInit() {
-        // TODO implement interaction with view and viewModel here
+    ${underscoreToCamelCase(layoutName)}Binding getViewBindingInstance(
+                LayoutInflater inflater,
+                ViewGroup container
+        ) {
+        return ${underscoreToCamelCase(layoutName)}Binding.inflate(inflater, container, false);
+    }
+
+    @Override
+    Class<${viewModelName}> getViewModelClass() {
+        return ${viewModelName}.class;
+    }
+
+    @Override
+    void onViewModelCreated(Boolean isViewRestored) {
+        // TODO implement interaction with viewBinding and viewModel here
     }
 }

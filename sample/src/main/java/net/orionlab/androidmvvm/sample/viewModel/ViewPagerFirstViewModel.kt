@@ -1,12 +1,11 @@
 package net.orionlab.androidmvvm.sample.viewModel
 
-import android.app.Application
 import android.view.View
-import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.ViewModel
 import net.orionlab.androidmvvm.MvvmActionLiveData
 import net.orionlab.androidmvvm.sample.utils.DialogUtils.DialogHandler
 
-class ViewPagerFirstViewModel(app: Application) : AndroidViewModel(app) {
+class ViewPagerFirstViewModel : ViewModel() {
     val infoMessageObserver = MvvmActionLiveData<DialogHandler>()
 
     fun onInfoClick(view: View) {

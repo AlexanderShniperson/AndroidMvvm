@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 
 /**
@@ -20,7 +21,7 @@ abstract class MvvmFragment<A : ViewDataBinding, B : ViewModel> : Fragment() {
     /**
      * Store flag that View has been restored
      */
-    private var isRestoredState = false
+    protected var isRestoredState = false
 
     /**
      * Indicates that ActionBar should be shown or hidden
@@ -50,7 +51,10 @@ abstract class MvvmFragment<A : ViewDataBinding, B : ViewModel> : Fragment() {
      * @param container Root container
      * @return ViewBinding instance
      */
-    protected abstract fun getViewBindingInstance(inflater: LayoutInflater, container: ViewGroup?): A
+    protected abstract fun getViewBindingInstance(
+        inflater: LayoutInflater,
+        container: ViewGroup?
+    ): A
 
     /**
      * Method return ViewModel class
@@ -59,12 +63,22 @@ abstract class MvvmFragment<A : ViewDataBinding, B : ViewModel> : Fragment() {
      */
     protected abstract fun getViewModelClass(): Class<B>
 
+    /**
+     * Method return ViewModelFactory
+     * @return ViewModelProvider.Factory
+     */
+    protected open fun getViewModelFactory(): ViewModelProvider.Factory? = null
+
     override fun onSaveInstanceState(outState: Bundle) {
         outState.putBoolean("isRestoredState_${javaClass.simpleName}", true)
         super.onSaveInstanceState(outState)
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         viewBinding = getViewBindingInstance(inflater, container)
         viewBinding?.lifecycleOwner = this
         return viewBinding?.root
@@ -75,7 +89,16 @@ abstract class MvvmFragment<A : ViewDataBinding, B : ViewModel> : Fragment() {
         savedInstanceState?.let {
             isRestoredState = it.getBoolean("isRestoredState_${javaClass.simpleName}", false)
         }
-        viewModel = ViewModelProviders.of(this).get(getViewModelClass())
+        viewModel = getViewModelFactory().run {
+            if (this == null) {
+                ViewModelProvider(
+                    this@MvvmFragment,
+                    ViewModelProvider.NewInstanceFactory()
+                ).get(getViewModelClass())
+            } else {
+                ViewModelProvider(this@MvvmFragment, this).get(getViewModelClass())
+            }
+        }
         onViewModelCreated(isRestoredState)
         isRestoredState = false
         setViewModelToViewBinding(viewModel)
@@ -114,7 +137,7 @@ abstract class MvvmFragment<A : ViewDataBinding, B : ViewModel> : Fragment() {
     /**
      * Method apply ViewModel instance to ViewBinding
      */
-    private fun setViewModelToViewBinding(value: B?) {
+    protected fun setViewModelToViewBinding(value: B?) {
         try {
             viewBinding?.let { vb ->
                 viewModel?.let { vm ->
